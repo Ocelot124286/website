@@ -64,13 +64,25 @@ Install [Termux](https://termux.com/) and from its prompt type:
 
 ```
 pkg install root-repo
-pkg install golang git libpcap-dev libusb-dev
+pkg install golang git libpcap-dev libusb-dev tsu
+```
+********If libusb-dev cannot be found then compile it from source********
+
+```
+pkg install make
+wget https://github.com/libusb/libusb/releases/download/v1.0.21/libusb-1.0.21.tar.bz2
+tar -xf libusb-1.0.21.tar.bz2
+cd libusb-1.0.21
+termux-fix-shebang configure
+./configure --prefix=$PREFIX --disable-udev
+make
+make install  
 ```
 
 There's a [golang bug](https://github.com/bettercap/bettercap/issues/486) in termux about some hardcoded path, the fix is ugly but it works:
 
 ```sh
-sudo su
+tsudo su
 mount -o rw,remount /
 mkdir -p /home/builder/.termux-build/_cache/18-arm-21-v2/bin/
 ln -s `which pkg-config` /home/builder/.termux-build/_cache/18-arm-21-v2/bin/arm-linux-androideabi-pkg-config
